@@ -25,16 +25,18 @@ return view('home')
 
 public function create(Request $request)
 	{
-$post = new Post();
 $array = json_decode(json_encode($request), true);
+
+$post = new Post();
+$SID="ACe766c2d9cdda628075237e977ce0808c";
+if (!$request->input('AccountSid')){
+	abort(404);
+}
 $num_images=$request->input('NumMedia');
 $i=0;
 while($i<$num_images){
 $post->image=$request->input('MediaUrl'.$i);
 }
-#$post->header = "Header2";
-#$post->body = "Body2";
-
 $post->header = $request->input('From');
 
 if (($request->input('Body'))!=""){
