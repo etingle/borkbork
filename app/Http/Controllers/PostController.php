@@ -1,0 +1,50 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Post;
+class PostController extends Controller
+{
+
+	public function home(){
+	
+	$posts=Post::with('tags','images')->orderBy('created_at','DESC')->get();
+	#$tags=$posts['tags'];
+return view('home')
+		->with([
+			#'header'=>$header,
+			#'body'=>$body,
+			#'created_at'=>$created_at
+			'posts'=>$posts
+			#'tags'=>$tags
+			]);	
+
+		}	
+
+
+public function create(Request $request)
+	{
+$post = new Post();
+$array = json_decode(json_encode($request), true);
+$num_images=$request->input('NumMedia');
+$i=0;
+while($i<$num_images){
+$post->image=$request->input('MediaUrl'.$i);
+}
+#$post->header = "Header2";
+#$post->body = "Body2";
+
+$post->header = $request->input('From');
+
+if (($request->input('Body'))!=""){
+	$post->body = $request->input('Body');
+} else {
+$post->body="Body";
+}
+$post->save();
+
+	#return 'Test';
+	}
+    //
+}
