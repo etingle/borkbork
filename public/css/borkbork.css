@@ -9,7 +9,7 @@ body {background-color: #C63D0F;}
 
 .header p {font-family:'Montserrat', sans-serif;}
 
-.body {}
+p.body {margin-bottom:20px;}
 .tags {	font-size:80%;}
 .date {font-style:italic;
 	font-weight:200;}
