@@ -19,10 +19,15 @@
 
 <div class="header">
         <h1>{{ strtolower($post->header) }}</h1>
-        
-        <p class="body">
-	{{$post->body}}
-    </p>
+
+@foreach(explode('%%',$post->body) as $body)
+	        
+   	<p class="body">
+	{{$body}}
+	</p>
+
+@endforeach
+
 <div class="images">
 @if(!empty($post->images))
         @foreach($post->images as $image)
