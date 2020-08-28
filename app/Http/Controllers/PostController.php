@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Post;
+use App\Image;
 class PostController extends Controller
 {
 
@@ -25,27 +26,39 @@ return view('home')
 
 public function create(Request $request)
 	{
-$array = json_decode(json_encode($request), true);
+$array =json_decode(json_encode($request), true);
 
 $post = new Post();
+#$post->header=$array;
+#$post->body="Body";
+
 $SID="ACe766c2d9cdda628075237e977ce0808c";
 if (!$request->input('AccountSid')){
 	abort(404);
 }
-$num_images=$request->input('NumMedia');
-$i=0;
-while($i<$num_images){
-$post->image=$request->input('MediaUrl'.$i);
-}
-$post->header = $request->input('From');
 
 if (($request->input('Body'))!=""){
-	$post->body = $request->input('Body');
+	$text=explode("\n",$request->input('Body'));	
+	$post->header=array_shift($text);
+
+	$post->body=implode("%%",$text);
 } else {
-$post->body="Body";
+$post->body="";
 }
 $post->save();
 
+$num_images=intval($request->input('NumMedia'));
+$i=0;
+while ($i<$num_images){
+$image=new Image();
+$image->image_url=$request->input('MediaUrl'.$i);
+$image->post_id=$post->id;
+$image->save();
+$i++;
+}
+
+
+#$post->images()->associate($image);
 	#return 'Test';
 	}
     //
