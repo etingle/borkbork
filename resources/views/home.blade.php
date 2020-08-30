@@ -15,6 +15,7 @@
         <a href='/'><img src='/images/foobooks-logo@2x.png' id='logo' alt='Foobooks Logo'></a>
     </header>
 -->
+
 @foreach($posts as $post)
 
 <div class="header">
@@ -38,7 +39,7 @@
 </div>
 <p class="tags">
 @foreach($post->tags as $tags)
-{{$tags->name}}
+<a href='/tag/{{$tags->name}}'>{{$tags->name}}</a>
 @endforeach
 </p>
 

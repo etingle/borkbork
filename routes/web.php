@@ -20,6 +20,7 @@ Route::get('/post',function () {
 
 Route::any('/post/create','PostController@create');
 
+Route::any('/tag/{tag}','PostController@showTags');
 
 Route::get('/debug', function () {
 
