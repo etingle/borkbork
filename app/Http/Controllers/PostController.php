@@ -48,13 +48,14 @@ if (($request->input('Body'))!=""){
 			$tags=str_replace("tag:","",$tags);
 			$tags=preg_split('/[\ \,]+/',$tags);
 			$remove=array_search($line,$text);
-	unset($text[$remove]);
-	$post->header=array_shift($text);
+			unset($text[$remove]);
+			}		
+		$post->header=array_shift($text);
+		$post->body=implode("%%",$text);
+	} else {
+		$post->body="";
+	}	
 
-	$post->body=implode("%%",$text);
-} else {
-$post->body="";
-}
 $post->save();
 
 $num_images=intval($request->input('NumMedia'));
