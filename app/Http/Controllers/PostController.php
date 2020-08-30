@@ -52,6 +52,7 @@ if (($request->input('Body'))!=""){
 			}		
 		$post->header=array_shift($text);
 		$post->body=implode("%%",$text);
+	}
 	} else {
 		$post->body="";
 	}	
