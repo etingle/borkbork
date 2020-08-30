@@ -43,7 +43,7 @@ if ((!$request->input('AccountSid')) or ($request->input('AccountSid')!=$SID)){
 if (($request->input('Body'))!=""){
 	$text=explode("\n",$request->input('Body'));	
 	foreach($text as $line){
-		if ((strpos($line,'tag:') or (strpos($line,'tags:'){
+		if ((strpos($line,'tag:')) or (strpos($line,'tags:'))){
 			$tags=str_replace("tags:","",$line);
 			$tags=str_replace("tag:","",$tags);
 			$tags=preg_split('/[\ \,]+/',$tags);
