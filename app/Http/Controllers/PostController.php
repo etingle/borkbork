@@ -45,7 +45,8 @@ if (($request->input('Body'))!=""){
 	foreach($text as $line){
 		  if (preg_match("/tags*:/i",$line)){
                         $tags=preg_replace("/tags*:/i","",$line);
-                        //$tags=trim($tags);
+                        $tags=trim($tags);
+			$tags=str_replace($replace,"",$line);
 			$tags=preg_split('/[\ \,]+/',$tags);
                         $tags=str_replace($replace,"",$line);
                         $remove=array_search($line,$text);
@@ -62,7 +63,6 @@ if (($request->input('Body'))!=""){
 $post->save();
 
 if($tags){
-
 	foreach($tags as $tag){
 		$existing_tag=Tag::firstOrCreate(['name'=>$tag]);
 		$post->tags()->syncWithoutDetaching($existing_tag);
