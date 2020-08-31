@@ -48,7 +48,6 @@ if (($request->input('Body'))!=""){
                         $tags=trim($tags);
 			$tags=str_replace($replace,"",$line);
 			$tags=preg_split('/[\ \,]+/',$tags);
-                        $tags=str_replace($replace,"",$line);
                         $remove=array_search($line,$text);
                         unset($text[$remove]);
                         }
