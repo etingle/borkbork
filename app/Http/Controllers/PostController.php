@@ -50,7 +50,7 @@ if (($request->input('Body'))!=""){
                         print_r($tags);
                         //$tags=str_replace($replace,"",$line);
                         //$remove=array_search($line,$text);
-                        unset($text[$remove]);
+                        //unset($text[$remove]);
                         }
 		}
 		$post->header=array_shift($text);
