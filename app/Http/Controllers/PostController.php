@@ -52,7 +52,7 @@ if (($request->input('Body'))!=""){
                         unset($text[$remove]);
                         }
 		}
-		post->header=array_shift($text);
+		$post->header=array_shift($text);
 		$post->body=implode("%%",$text);
 	
 	} else {
