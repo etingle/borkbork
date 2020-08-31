@@ -63,11 +63,14 @@ if (($request->input('Body'))!=""){
 $post->save();
 
 if($tags){
-	$post->tags()->sync($tags);
+	//$post->tags()->sync($tags);
 
-	//foreach($tags as $tag){
-	//	$existing_tag=Tag::firstOrCreate(['name'=>$tag]);
-	//	$post->tags()->sync($existing_tag);
+	foreach($tags as $tag){
+		$existing_tag=Tag::firstOrCreate(['name'=>$tag]);
+	}
+	
+
+	$post->tags()->sync($tags);
 	//}	
 }
 
