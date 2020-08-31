@@ -39,7 +39,7 @@ $SID="ACe766c2d9cdda628075237e977ce0808c";
 if ((!$request->input('AccountSid')) or ($request->input('AccountSid')!=$SID)){
 	abort(404);
 }
-$replace=["Tags:","Tag:","tags:","tag:"]
+$replace=["Tags:","Tag:","tags:","tag:"];
 if (($request->input('Body'))!=""){
 	$text=explode("\n",$request->input('Body'));	
 	foreach($text as $line){
