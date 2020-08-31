@@ -48,8 +48,8 @@ if (($request->input('Body'))!=""){
                         $tags=trim($tags);
 			$tags=preg_split('/[\ \,]+/',$tags);
                         print_r($tags);
-                        $tags=str_replace($replace,"",$line);
-                        $remove=array_search($line,$text);
+                        //$tags=str_replace($replace,"",$line);
+                        //$remove=array_search($line,$text);
                         unset($text[$remove]);
                         }
 		}
@@ -62,10 +62,12 @@ if (($request->input('Body'))!=""){
 
 $post->save();
 
-foreach($tags as $tag){
-$existing_tag=Tag::firstOrCreate(['name'=>$tag]);
-$post->tags()->sync($existing_tag);
-};	
+if($tags){
+	foreach($tags as $tag){
+	$existing_tag=Tag::firstOrCreate(['name'=>$tag]);
+	$post->tags()->sync($existing_tag);
+	}	
+}
 
 $num_images=intval($request->input('NumMedia'));
 $i=0;
