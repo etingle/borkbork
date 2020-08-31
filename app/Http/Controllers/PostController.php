@@ -67,12 +67,13 @@ if($tags){
 
 	foreach($tags as $tag){
 		$existing_tag=Tag::firstOrCreate(['name'=>$tag]);
-
+        	$post->tags()->sync($existing_tag);
+        	$post->save();
 	}
 	
 
-	$post->tags()->sync($tags);
-	$post->save();
+	//$post->tags()->sync($tags);
+	$//$post->save();
 
 	//}	
 }
