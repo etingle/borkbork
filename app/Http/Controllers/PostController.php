@@ -47,10 +47,9 @@ if (($request->input('Body'))!=""){
                         $tags=preg_replace("/tags*:/i","",$line);
                         $tags=trim($tags);
 			$tags=preg_split('/[\ \,]+/',$tags);
-                        print_r($tags);
-                        //$tags=str_replace($replace,"",$line);
-                        //$remove=array_search($line,$text);
-                        //unset($text[$remove]);
+                        $tags=str_replace($replace,"",$line);
+                        $remove=array_search($line,$text);
+                        unset($text[$remove]);
                         }
 		}
 		$post->header=array_shift($text);
@@ -63,22 +62,13 @@ if (($request->input('Body'))!=""){
 $post->save();
 
 if($tags){
-	//$post->tags()->sync($tags);
 
 	foreach($tags as $tag){
 		$existing_tag=Tag::firstOrCreate(['name'=>$tag]);
 		$post->tags()->syncWithoutDetaching($existing_tag);
 		}
-		//$existing_tags=Tag::whereIn('name',$tags); 
-        	//$post->tags()->sync($existing_tags);
-        	//$post->save();
 	}
 	
-
-	//$post->tags()->sync($tags);
-	//$post->save();
-
-
 
 $num_images=intval($request->input('NumMedia'));
 $i=0;
@@ -94,7 +84,6 @@ $i++;
 #$post->images()->associate($image);
 	#return 'Test';
 	}
-    //
 
 
 
