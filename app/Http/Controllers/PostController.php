@@ -73,7 +73,7 @@ if($tags){
 	
 
 	//$post->tags()->sync($tags);
-	$//$post->save();
+	//$post->save();
 
 	//}	
 }
