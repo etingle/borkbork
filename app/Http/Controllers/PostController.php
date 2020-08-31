@@ -67,8 +67,10 @@ if($tags){
 
 	foreach($tags as $tag){
 		$existing_tag=Tag::firstOrCreate(['name'=>$tag]);
-        	$post->tags()->sync($existing_tag);
-        	$post->save();
+		}
+		$existing_tags=Tag::whereIn('name',$tags); 
+        	$post->tags()->sync($existing_tags);
+        	//$post->save();
 	}
 	
 
