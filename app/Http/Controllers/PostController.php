@@ -45,7 +45,7 @@ if (($request->input('Body'))!=""){
 	foreach($text as $line){
 		  if (preg_match("/tags*:/i",$line)){
                         $tags=preg_replace("/tags*:/i","",$line);
-                        $tags=trim($tags);
+                        //$tags=trim($tags);
 			$tags=preg_split('/[\ \,]+/',$tags);
                         $tags=str_replace($replace,"",$line);
                         $remove=array_search($line,$text);
