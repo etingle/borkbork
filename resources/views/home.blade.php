@@ -19,7 +19,7 @@
 @foreach($posts as $post)
 
 <div class="header">
-        <h1>{{ strtolower($post->header) }}</h1>
+        <h1>{{ ($post->header) }}</h1>
 
 @foreach(explode('%%',$post->body) as $body)
 	        
