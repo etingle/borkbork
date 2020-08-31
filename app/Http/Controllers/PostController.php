@@ -45,7 +45,8 @@ if (($request->input('Body'))!=""){
 	foreach($text as $line){
 		  if (preg_match("/tags*:/i",$line)){
                         $tags=preg_replace("/tags*:/i","",$line);
-                        $tags=preg_split('/[\ \,]+/',$tags);
+                        $tags=trim($tags);
+			$tags=preg_split('/[\ \,]+/',$tags);
                         print_r($tags);
                         $tags=str_replace($replace,"",$line);
                         $remove=array_search($line,$text);
@@ -60,6 +61,11 @@ if (($request->input('Body'))!=""){
 	}	
 
 $post->save();
+
+foreach($tags as $tag){
+$existing_tag=Tag::firstOrCreate(['name'=>$tag]);
+$post->tags()->sync($tag);
+};	
 
 $num_images=intval($request->input('NumMedia'));
 $i=0;
