@@ -77,8 +77,7 @@ if($tags){
 	//$post->tags()->sync($tags);
 	//$post->save();
 
-	}	
-}
+
 
 $num_images=intval($request->input('NumMedia'));
 $i=0;
