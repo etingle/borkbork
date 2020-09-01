@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 use App\Post;
 use App\Image;
@@ -12,7 +13,6 @@ class PostController extends Controller
 {
 
 	public function home(){
-	
 	$posts=Post::with('tags','images')->orderBy('created_at','DESC')->get();
 	#$tags=$posts['tags'];
 return view('home')
@@ -73,7 +73,10 @@ $num_images=intval($request->input('NumMedia'));
 $i=0;
 while ($i<$num_images){
 $image=new Image();
-$image->image_url=$request->input('MediaUrl'.$i);
+$contents=file_get_contents($request->input('MediaUrl'.$i);
+Storage::disk('local')->put('test2.jpg',$contents);
+$image->image_url=Storage::url('test2.jpg');
+//$image->image_url=$request->input('MediaUrl'.$i);
 $image->post_id=$post->id;
 $image->save();
 $i++;
