@@ -61,7 +61,7 @@ if (($request->input('Body'))!=""){
 
 $post->save();
 
-if($tags){
+if(isset($tags)){
 	foreach($tags as $tag){
 		$existing_tag=Tag::firstOrCreate(['name'=>$tag]);
 		$post->tags()->syncWithoutDetaching($existing_tag);
