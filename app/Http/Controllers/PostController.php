@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Twilio\Rest\Client;
 
 use App\Post;
 use App\Image;
@@ -36,7 +37,7 @@ $post = new Post();
 #$post->body="Body";
 
 $SID="ACe766c2d9cdda628075237e977ce0808c";
-if ((!$request->input('AccountSid')) or ($request->input('AccountSid')!=$SID)){
+if ((!$request->input('AccountSid')) or ($request->input('AccountSid')!=$_ENV["TWILIO_ACCOUNT_SID"])){
 	abort(404);
 }
 $replace=["Tags:","Tag:","tags:","tag:"];
