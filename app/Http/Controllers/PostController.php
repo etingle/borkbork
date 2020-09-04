@@ -125,7 +125,7 @@ curl_close($curl);
 
 $contents=file_get_contents($url);
 
-Storage::disk('public')->put($post->created_at->format('m-d-Y_H_i_s).'_'.$i.'.jpg',$contents);
+Storage::disk('public')->put($post->created_at->format('m-d-Y_H_i_s').'_'.$i.'.jpg',$contents);
 
 //Storage::disk('public')->put('test2.jpg',$contents);
 
