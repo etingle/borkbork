@@ -15,9 +15,9 @@ class PostController extends Controller
 
 	public function home(){
 
-//$accountSid = $_ENV["TWILIO_ACCOUNT_SID"];
-//$authToken = $_ENV["TWILIO_AUTH_TOKEN"];
-//$mediaUrl="https://api.twilio.com/2010-04-01/Accounts/ACe766c2d9cdda628075237e977ce0808c/Messages/MM5b0b863b122ff7417f4ab1a430c04f48/Media/ME5e59e4027c675cb86e4394084b276dc9";
+$accountSid = $_ENV["TWILIO_ACCOUNT_SID"];
+$authToken = $_ENV["TWILIO_AUTH_TOKEN"];
+$mediaUrl="https://api.twilio.com/2010-04-01/Accounts/ACe766c2d9cdda628075237e977ce0808c/Messages/MM5b0b863b122ff7417f4ab1a430c04f48/Media/ME5e59e4027c675cb86e4394084b276dc9";
 
 echo "test";
 $curl = curl_init();
