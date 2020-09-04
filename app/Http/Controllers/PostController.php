@@ -132,7 +132,7 @@ Storage::disk('public')->put($post->created_at->format('m-d-Y').'_'.$i.'.jpg',$c
 
 //$contents=file_get_contents($request->input('MediaUrl'.$i));
 //Storage::disk('local')->put('test2.jpg',$contents);
-$image->image_url=Storage::url('test2.jpg');
+$image->image_url=Storage::url($post->created_at->format('m-d-Y').'_'.$i.'.jpg');
 //$image->image_url=$request->input('MediaUrl'.$i);
 $image->post_id=$post->id;
 $image->save();
