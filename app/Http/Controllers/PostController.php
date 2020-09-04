@@ -129,7 +129,7 @@ $contents=file_get_contents($url);
 
 //Storage::disk('local')->put($post->created_at.'.jpg',$contents);
 
-Storage::disk('local')->put('test2.jpg',$contents);
+Storage::disk('public')->put('test2.jpg',$contents);
 
 
 //$contents=file_get_contents($request->input('MediaUrl'.$i));
