@@ -15,9 +15,9 @@ class PostController extends Controller
 
 	public function home(){
 
-$accountSid = $_ENV["TWILIO_ACCOUNT_SID"];
-$authToken = $_ENV["TWILIO_AUTH_TOKEN"];
-$mediaUrl="https://api.twilio.com/2010-04-01/Accounts/ACe766c2d9cdda628075237e977ce0808c/Messages/MM5b0b863b122ff7417f4ab1a430c04f48/Media/ME5e59e4027c675cb86e4394084b276dc9";
+//$accountSid = $_ENV["TWILIO_ACCOUNT_SID"];
+//$authToken = $_ENV["TWILIO_AUTH_TOKEN"];
+//$mediaUrl="https://api.twilio.com/2010-04-01/Accounts/ACe766c2d9cdda628075237e977ce0808c/Messages/MM5b0b863b122ff7417f4ab1a430c04f48/Media/ME5e59e4027c675cb86e4394084b276dc9";
 
 echo "test";
 $curl = curl_init();
@@ -37,7 +37,7 @@ $url=$url['url'];
 curl_close($curl);
 
 $contents=file_get_contents($url);
-Storage::disk('local')->put('test2.jpg',$contents);
+//Storage::disk('local')->put('test2.jpg',$contents);
 echo Storage::url('test2.jpg');
 
 
@@ -61,8 +61,6 @@ public function create(Request $request)
 $array =json_decode(json_encode($request), true);
 
 $post = new Post();
-#$post->header=$array;
-#$post->body="Body";
 
 $SID="ACe766c2d9cdda628075237e977ce0808c";
 if ((!$request->input('AccountSid')) or ($request->input('AccountSid')!=$_ENV["TWILIO_ACCOUNT_SID"])){
