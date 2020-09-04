@@ -14,6 +14,34 @@ class PostController extends Controller
 {
 
 	public function home(){
+
+$accountSid = $_ENV["TWILIO_ACCOUNT_SID"];
+$authToken = $_ENV["TWILIO_AUTH_TOKEN"];
+$mediaUrl="https://api.twilio.com/2010-04-01/Accounts/ACe766c2d9cdda628075237e977ce0808c/Messages/MM5b0b863b122ff7417f4ab1a430c04f48/Media/ME5e59e4027c675cb86e4394084b276dc9";
+
+echo "test";
+$curl = curl_init();
+$options = array(
+    CURLOPT_HTTPGET => true,
+    CURLOPT_URL => $mediaUrl,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+    CURLOPT_USERPWD => "$accountSid:$authToken",
+    CURLOPT_RETURNTRANSFER  => 1            
+);
+curl_setopt_array($curl, $options);
+curl_exec($curl);
+
+$url=(curl_getinfo($curl));
+$url=$url['url'];
+curl_close($curl);
+
+$contents=file_get_contents($url);
+Storage::disk('local')->put('test2.jpg',$contents);
+echo Storage::url('test2.jpg');
+
+
+
 	$posts=Post::with('tags','images')->orderBy('created_at','DESC')->get();
 	#$tags=$posts['tags'];
 return view('home')
@@ -72,10 +100,40 @@ if(isset($tags)){
 
 $num_images=intval($request->input('NumMedia'));
 $i=0;
+
+$accountSid = $_ENV["TWILIO_ACCOUNT_SID"];
+$authToken = $_ENV["TWILIO_AUTH_TOKEN"];
+
 while ($i<$num_images){
 $image=new Image();
-$contents=file_get_contents($request->input('MediaUrl'.$i));
+
+$mediaUrl=$request->input('MediaUrl'.$i);
+
+$curl = curl_init();
+$options = array(
+    CURLOPT_HTTPGET => true,
+    CURLOPT_URL => $mediaUrl,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+    CURLOPT_USERPWD => "$accountSid:$authToken",
+    CURLOPT_RETURNTRANSFER  => 1
+);
+curl_setopt_array($curl, $options);
+curl_exec($curl);
+
+$url=(curl_getinfo($curl));
+$url=$url['url'];
+curl_close($curl);
+
+$contents=file_get_contents($url);
+
+//Storage::disk('local')->put($post->created_at.'.jpg',$contents);
+
 Storage::disk('local')->put('test2.jpg',$contents);
+
+
+//$contents=file_get_contents($request->input('MediaUrl'.$i));
+//Storage::disk('local')->put('test2.jpg',$contents);
 $image->image_url=Storage::url('test2.jpg');
 //$image->image_url=$request->input('MediaUrl'.$i);
 $image->post_id=$post->id;
@@ -84,8 +142,6 @@ $i++;
 }
 
 
-#$post->images()->associate($image);
-	#return 'Test';
 	}
 
 
