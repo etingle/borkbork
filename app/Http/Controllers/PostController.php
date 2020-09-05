@@ -21,20 +21,20 @@ class PostController extends Controller
 
 //echo "test";
 $curl = curl_init();
-$options = array(
-    CURLOPT_HTTPGET => true,
-    CURLOPT_URL => $mediaUrl,
-    CURLOPT_FOLLOWLOCATION => true,
-    CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-    CURLOPT_USERPWD => "$accountSid:$authToken",
-    CURLOPT_RETURNTRANSFER  => 1            
-);
-curl_setopt_array($curl, $options);
-curl_exec($curl);
+//$options = array(
+//    CURLOPT_HTTPGET => true,
+//    CURLOPT_URL => $mediaUrl,
+//    CURLOPT_FOLLOWLOCATION => true,
+//    CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+//    CURLOPT_USERPWD => "$accountSid:$authToken",
+//    CURLOPT_RETURNTRANSFER  => 1            
+//);
+//curl_setopt_array($curl, $options);
+//curl_exec($curl);
 
-$url=(curl_getinfo($curl));
-$url=$url['url'];
-curl_close($curl);
+//$url=(curl_getinfo($curl));
+//$url=$url['url'];
+//curl_close($curl);
 
 
 #WILL DELETE IMAGE FROM TWILIO SERVERS
@@ -54,7 +54,7 @@ curl_close($curl);
 
 //$contents=file_get_contents($url);
 //Storage::disk('local')->put('test2.jpg',$contents);
-echo Storage::url('test2.jpg');
+//echo Storage::url('test2.jpg');
 
 
 
