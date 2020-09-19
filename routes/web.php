@@ -18,6 +18,8 @@ Route::get('/post',function () {
     return 'This is a test';
 });
 
+Route::any('/date/{year}/{month?}', 'PostController@searchDates');
+
 Route::any('/post/create','PostController@create');
 
 Route::any('/tag/{tag}','PostController@showTags');
