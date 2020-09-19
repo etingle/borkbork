@@ -15,9 +15,6 @@ class PostController extends Controller
 
 	public function home(){
 
-//$accountSid = $_ENV["TWILIO_ACCOUNT_SID"];
-//$authToken = $_ENV["TWILIO_AUTH_TOKEN"];
-//$mediaUrl="https://api.twilio.com/2010-04-01/Accounts/ACe766c2d9cdda628075237e977ce0808c/Messages/MM5b0b863b122ff7417f4ab1a430c04f48/Media/ME5e59e4027c675cb86e4394084b276dc9";
 
 //echo "test";
 $curl = curl_init();
@@ -59,18 +56,33 @@ $curl = curl_init();
 
 
 	$posts=Post::with('tags','images')->orderBy('created_at','DESC')->get();
-	#$tags=$posts['tags'];
+
+$dates=Post::dates();
 return view('home')
 		->with([
-			#'header'=>$header,
-			#'body'=>$body,
-			#'created_at'=>$created_at
-			'posts'=>$posts
-			#'tags'=>$tags
+			'posts'=>$posts,
+			'dates'=>$dates
 			]);	
 
 		}	
 
+public function searchDates($year,$month=null){
+
+if ($month){
+$posts=Post::with('tags','images')->whereYear('created_at', $year)->whereMonth('created_at',$month)->orderBy('created_at','DESC')->get();
+} else {
+$posts=Post::with('tags','images')->whereYear('created_at', $year)->orderBy('created_at','DESC')->get();
+}
+$dates=Post::dates();
+return view('home')     
+                ->with([
+                        'posts'=>$posts,
+                        'dates'=>$dates
+                        ]);
+
+                    
+
+}
 
 public function create(Request $request)
 	{
@@ -160,10 +172,13 @@ $i++;
 
 
 
+
 public function showTags($tag)
 {
 
 $post_id=DB::select("select posts.id from posts, tags, post_tag where posts.id=post_tag.post_id and tags.id=post_tag.tag_id and tags.name=?",[$tag]);
+
+$dates=DB::select("select distinct YEAR(created_at) as year, MONTH(created_at) as month from posts order by year DESC, month DESC");
 
 $post_ids=[];
 foreach($post_id as $i){
@@ -172,10 +187,11 @@ array_push($post_ids,$i->id);
 
 
 $posts=Post::with('tags','images')->whereIn('id',$post_ids)->get();
-
+$dates=Post::dates();
 	return view('home')
 		->with([
-			'posts'=>$posts
+			'posts'=>$posts,
+			'dates'=>$dates
 			]);
 }
 }
