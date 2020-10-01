@@ -4,6 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+
+
 class Post extends Model
 {
 
@@ -19,8 +22,12 @@ class Post extends Model
 	} 
 
        public static function dates(){
-		$dates=DB::select("select distinct YEAR(created_at) as year, MONTHNAME(created_at) as monthname, MONTH(created_at) as month from posts order by year DESC, month DESC");
-		$dates_array=[];
+		if (Auth::check()){
+			$dates=DB::select("select distinct YEAR(created_at) as year, MONTHNAME(created_at) as monthname, MONTH(created_at) as month from posts order by year DESC, month DESC");
+		} else {
+			$dates=DB::select("select distinct YEAR(created_at) as year, MONTHNAME(created_at) as monthname, MONTH(created_at) as month from posts where protected is NULL order by year DESC, month DESC");
+		}
+$dates_array=[];
 
 $i=0;
 foreach ($dates as $date){

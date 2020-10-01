@@ -5,11 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
+
 use Twilio\Rest\Client;
 
 use App\Post;
 use App\Image;
 use App\Tag;
+
 class PostController extends Controller
 {
 
@@ -54,9 +57,11 @@ $curl = curl_init();
 //echo Storage::url('test2.jpg');
 
 
-
+if (Auth::check()){
 	$posts=Post::with('tags','images')->orderBy('created_at','DESC')->get();
-
+} else {
+        $posts=Post::with('tags','images')->where('protected',NULL)->orderBy('created_at','DESC')->get();
+}
 $dates=Post::dates();
 return view('home')
 		->with([
@@ -68,11 +73,17 @@ return view('home')
 
 public function searchDates($year,$month=null){
 
-if ($month){
+if (($month) and (Auth::check())){
 $posts=Post::with('tags','images')->whereYear('created_at', $year)->whereMonth('created_at',$month)->orderBy('created_at','DESC')->get();
-} else {
+} elseif ($month){
+$posts=Post::with('tags','images')->where('protected',NULL)->whereYear('created_at', $year)->whereMonth('created_at',$month)->orderBy('created_at','DESC')->get();
+} elseif(Auth::check()){
 $posts=Post::with('tags','images')->whereYear('created_at', $year)->orderBy('created_at','DESC')->get();
 }
+else {
+$posts=Post::with('tags','images')->where('protected',NULL)->whereYear('created_at', $year)->orderBy('created_at','DESC')->get();
+}
+
 $dates=Post::dates();
 return view('home')     
                 ->with([
@@ -90,12 +101,15 @@ $array =json_decode(json_encode($request), true);
 
 $post = new Post();
 
-$SID="ACe766c2d9cdda628075237e977ce0808c";
 if ((!$request->input('AccountSid')) or ($request->input('AccountSid')!=$_ENV["TWILIO_ACCOUNT_SID"])){
 	abort(404);
 }
 $replace=["Tags:","Tag:","tags:","tag:"];
 if (($request->input('Body'))!=""){
+	if ((preg_match("/baby/i",$request->input('Body'))) or (preg_match("/hazel/i",$request->input('Body')))){
+		$post->protected="Y";
+	}
+
 	$text=explode("\n",$request->input('Body'));	
 	foreach($text as $line){
 		  if (preg_match("/tags*:/i",$line)){
@@ -153,8 +167,12 @@ curl_close($curl);
 
 $contents=file_get_contents($url);
 
+if ($post->protected=="Y"){
+Storage::disk('private')->put($post->created_at->format('m-d-Y_H_i_s').'_'.$i.'.jpg',$contents);
+}
+else {
 Storage::disk('public')->put($post->created_at->format('m-d-Y_H_i_s').'_'.$i.'.jpg',$contents);
-
+}
 //Storage::disk('public')->put('test2.jpg',$contents);
 
 
@@ -176,9 +194,11 @@ $i++;
 public function showTags($tag)
 {
 
+if (Auth::check()){
 $post_id=DB::select("select posts.id from posts, tags, post_tag where posts.id=post_tag.post_id and tags.id=post_tag.tag_id and tags.name=?",[$tag]);
-
-$dates=DB::select("select distinct YEAR(created_at) as year, MONTH(created_at) as month from posts order by year DESC, month DESC");
+} else {
+$post_id=DB::select("select posts.id from posts, tags, post_tag where protected is NULL and posts.id=post_tag.post_id and tags.id=post_tag.tag_id and tags.name=?",[$tag]);
+}
 
 $post_ids=[];
 foreach($post_id as $i){

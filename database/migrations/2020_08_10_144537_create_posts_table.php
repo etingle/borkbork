@@ -18,6 +18,7 @@ class CreatePostsTable extends Migration
             $table->timestamps();
 	    $table->string('header')->nullable();
 	    $table->string('body')->nullable();
+	    $table->string('protected')->nullable();
 });
     }
 

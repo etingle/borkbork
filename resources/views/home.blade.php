@@ -16,6 +16,32 @@
     </header>
 -->
 <div id="nav">
+
+
+@if (Auth::check())
+
+<form method='POST' id='logout' action='/logout'>
+    {{ csrf_field() }}
+    <a href='#' onClick='document.getElementById("logout").submit();'>Logout</a>
+</form>
+
+
+@else
+
+<form method='POST' action='{{ route('login') }}'>
+
+        {{ csrf_field() }}
+
+        <input id='email' type='email' name='email' value='evan.tingle@gmail.com' hidden>
+        <label for='password'>Password</label>
+        <input id='password' type='password' name='password' required>
+
+        <button type='submit' class='btn btn-primary'>Login</button>
+
+
+    </form>
+@endif
+
 <div class="header">
 <ul>
 @foreach($dates as $date)
