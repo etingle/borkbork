@@ -3,9 +3,10 @@
 <head>
     <title>Bork Bork</title>
     <meta charset='utf-8'>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="{{ URL::asset('css/borkbork.css') }}" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;1,200&family=Permanent+Marker&display=block" rel="stylesheet">
-
+<meta http-equiv="X-Frame-Options" content="Deny">
 </head>
 <body>
 <h1 id="title"><a href="/">bork bork</a></h1>
@@ -17,7 +18,7 @@
 -->
 <div id="nav">
 
-
+<div class="header">
 @if (Auth::check())
 
 <form method='POST' id='logout' action='/logout'>
@@ -33,14 +34,14 @@
         {{ csrf_field() }}
 
         <input id='email' type='email' name='email' value='evan.tingle@gmail.com' hidden>
-        <label for='password'>Password</label>
-        <input id='password' type='password' name='password' required>
+        <input id='password' type='password' name='password' required size=10>
 
         <button type='submit' class='btn btn-primary'>Login</button>
 
 
     </form>
 @endif
+</div>
 
 <div class="header">
 <ul>

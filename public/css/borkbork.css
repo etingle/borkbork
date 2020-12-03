@@ -21,30 +21,34 @@ p.body {margin-bottom:20px;}
 	font-weight:200;}
 
 .header {display:block;
-                margin: 10px 15%  0px auto;
+                margin: 0px 5%  10px 2%;
                 background-color: #FDF3E7;
                 border: 2px solid #FDF3E7;
                 border-radius: 15px;
                 box-shadow: 5px 5px 5px #9E310C;
                 text-align:left;
-                max-width: 800px;
-                padding:1em 2em;}
+                padding:1em 2em;
+		width:70%;
+		float:right;}
 .header h1{font-family:'Montserrat',sans-serif;
                 font-weight:600;
                 -webkit-text-stroke: 1px black;}
 #nav {
 	width:12%;
+	min-width:110px;
 	float:left;
 	margin-top:0px;
 	font-family:'Montserrat',sans-serif;	
 }
 
 #nav .header{
-	margin-top:0px;
-	margin-left:5px;
-	padding:20px;
+	margin:0px 10px 10px 5px;
+	padding:15px;
+	float:left;
 }
-
+#password {
+	margin-bottom:3px;
+}
 ul {margin:0px;
 	padding:0px;
 	list-style:none;
@@ -88,10 +92,10 @@ color:black;
 .dropdown:hover{
 display:block;
 }
-.images img{width:48%;
+.images img{height:45vw;
+	max-height:530px;
 	border-radius:5px;
 }
-
 
 .beer {padding-bottom:5px;}
 .beer p{margin:0px;}
@@ -175,3 +179,10 @@ h1.loading-title {color:#DDDDDD;
                                                         float:left;}
 #header_links {clear:left;}
 
+
+
+@media only screen and (min-width: 600px) {
+  body {
+    background-color: lightblue;
+  }
+}

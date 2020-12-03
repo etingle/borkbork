@@ -16,46 +16,7 @@ use App\Tag;
 class PostController extends Controller
 {
 
-	public function home(){
-
-
-//echo "test";
-$curl = curl_init();
-//$options = array(
-//    CURLOPT_HTTPGET => true,
-//    CURLOPT_URL => $mediaUrl,
-//    CURLOPT_FOLLOWLOCATION => true,
-//    CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-//    CURLOPT_USERPWD => "$accountSid:$authToken",
-//    CURLOPT_RETURNTRANSFER  => 1            
-//);
-//curl_setopt_array($curl, $options);
-//curl_exec($curl);
-
-//$url=(curl_getinfo($curl));
-//$url=$url['url'];
-//curl_close($curl);
-
-
-#WILL DELETE IMAGE FROM TWILIO SERVERS
-//$curl = curl_init();
-//$options = array(
-//    CURLOPT_CUSTOMREQUEST => "DELETE",
-//    CURLOPT_URL => $mediaUrl,
-//    CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
- //   CURLOPT_USERPWD => "$accountSid:$authToken",
- //   CURLOPT_RETURNTRANSFER  => 1
-//);
-//curl_setopt_array($curl, $options);
-//curl_exec($curl);
-//curl_close($curl);
-
-
-
-//$contents=file_get_contents($url);
-//Storage::disk('local')->put('test2.jpg',$contents);
-//echo Storage::url('test2.jpg');
-
+public function home(){
 
 if (Auth::check()){
 	$posts=Post::with('tags','images')->orderBy('created_at','DESC')->get();
@@ -101,7 +62,7 @@ $array =json_decode(json_encode($request), true);
 
 $post = new Post();
 
-if ((!$request->input('AccountSid')) or ($request->input('AccountSid')!=$_ENV["TWILIO_ACCOUNT_SID"])){
+if ((!$request->input('AccountSid')) or ($request->input('AccountSid')!=$_ENV["TWILIO_ACCOUNT_SID"]) or ($request->input('From')!="+12106011728")){
 	abort(404);
 }
 $replace=["Tags:","Tag:","tags:","tag:"];
@@ -169,20 +130,21 @@ $contents=file_get_contents($url);
 
 if ($post->protected=="Y"){
 Storage::disk('private')->put($post->created_at->format('m-d-Y_H_i_s').'_'.$i.'.jpg',$contents);
+
+#$image->image_url=$mediaUrl;
+$image->image_url='/private/'.$post->created_at->format('m-d-Y_H_i_s').'_'.$i.'.jpg';
 }
 else {
 Storage::disk('public')->put($post->created_at->format('m-d-Y_H_i_s').'_'.$i.'.jpg',$contents);
-}
-//Storage::disk('public')->put('test2.jpg',$contents);
-
-
-//$contents=file_get_contents($request->input('MediaUrl'.$i));
-//Storage::disk('local')->put('test2.jpg',$contents);
 $image->image_url=Storage::url($post->created_at->format('m-d-Y_H_i_s').'_'.$i.'.jpg');
-//$image->image_url=$request->input('MediaUrl'.$i);
+}
+
 $image->post_id=$post->id;
 $image->save();
 $i++;
+
+$deleteUrl=$mediaUrl.'.json';
+exec("(sleep 2m; php delete.php $deleteUrl $accountSid $authToken) >/dev/null 2>&1 &");
 }
 
 
@@ -198,6 +160,7 @@ if (Auth::check()){
 $post_id=DB::select("select posts.id from posts, tags, post_tag where posts.id=post_tag.post_id and tags.id=post_tag.tag_id and tags.name=?",[$tag]);
 } else {
 $post_id=DB::select("select posts.id from posts, tags, post_tag where protected is NULL and posts.id=post_tag.post_id and tags.id=post_tag.tag_id and tags.name=?",[$tag]);
+
 }
 
 $post_ids=[];
@@ -206,7 +169,7 @@ array_push($post_ids,$i->id);
 }
 
 
-$posts=Post::with('tags','images')->whereIn('id',$post_ids)->get();
+$posts=Post::with('tags','images')->whereIn('id',$post_ids)->orderBy('created_at','DESC')->get();
 $dates=Post::dates();
 	return view('home')
 		->with([

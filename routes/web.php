@@ -13,10 +13,31 @@
 
 Route::any('/', 'PostController@home');
 
+Route::get('/private/{file?}', 'FileController@get')->where('file', '(.*)');
 
-Route::get('/post',function () {
-    return 'This is a test';
+/*Route::any('/storage/private/{image?}', function ($image) {
+echo "test";
+})->middleware('auth');
+
+Route::any('puppy/{image?}', function ($image) {
+echo "test";
+})->middleware('auth'); 
+
+//Route::any('/storage/private/{image?}', function ($image) {
+//echo "test";
+//})->middleware('auth'); 
+
+*/
+/*
+Route::any('/storage/private/{image?}', function ($image) {
+
+if (Auth::check()){
+return response()->file($image);
+} else {
+return  "test";
+}
 });
+*/
 
 Route::any('/date/{year}/{month?}', 'PostController@searchDates');
 
@@ -47,7 +68,7 @@ Route::get('/debug', function () {
         $debug['Database connection test'] = 'FAILED: '.$e->getMessage();
     }
 
-    dump($debug);
+#    dump($debug);
 });
 
 Auth::routes();
