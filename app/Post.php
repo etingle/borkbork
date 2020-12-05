@@ -23,9 +23,9 @@ class Post extends Model
 
        public static function dates(){
 		if (Auth::check()){
-			$dates=DB::select("select distinct YEAR(created_at) as year, MONTHNAME(created_at) as monthname, MONTH(created_at) as month from posts order by year DESC, month DESC");
+			$dates=DB::select("select distinct YEAR(created_at) as year, MONTHNAME(created_at) as monthname, MONTH(created_at) as month from posts order by year DESC");
 		} else {
-			$dates=DB::select("select distinct YEAR(created_at) as year, MONTHNAME(created_at) as monthname, MONTH(created_at) as month from posts where protected is NULL order by year DESC, month DESC");
+			$dates=DB::select("select distinct YEAR(created_at) as year, MONTHNAME(created_at) as monthname, MONTH(created_at) as month from posts where protected is NULL order by year DESC");
 		}
 $dates_array=[];
 

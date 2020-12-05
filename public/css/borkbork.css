@@ -226,6 +226,7 @@ width: -webkit-calc(91% - 25px);
     font-size: 250%;
 }
 .month a {
+	margin-right:5px;
 	font-size:100%;
 }
 ul li ul.dropdown {
@@ -233,11 +234,24 @@ ul li ul.dropdown {
     opacity: 100;
     visibility: visible;
 }
+
+.dates ul li ul li {
+	display:inline;
+}
+ul li:hover ul.dropdown{
+    animation: none;
+}
+
 .header {width: -webkit-calc(91% - 25px);
     width: -moz-calc(91% - 25px);
     width: calc(91% - 25px);
 	margin-right:2%;}
-
+h1#title a {
+	font-size:200%;
+	}
+h1 {
+line-height:40px;
+}
 
 
 }
