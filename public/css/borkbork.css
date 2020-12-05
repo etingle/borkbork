@@ -247,10 +247,11 @@ ul li:hover ul.dropdown{
     width: calc(91% - 25px);
 	margin-right:2%;}
 h1#title a {
-	font-size:200%;
+	font-size:250%;
 	}
-h1 {
+#title {
 line-height:40px;
+margin:10px 40px;
 }
 
 
