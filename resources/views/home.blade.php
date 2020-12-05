@@ -6,9 +6,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="{{ URL::asset('css/borkbork.css') }}" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;1,200&family=Permanent+Marker&display=block" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <meta http-equiv="X-Frame-Options" content="Deny">
 </head>
 <body>
+<div class="mobilenav">
+  <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+    <i class="fa fa-bars"></i>
+  </a>
+</div>
 <h1 id="title"><a href="/">bork bork</a></h1>
 
 <!--    <header>
@@ -18,7 +24,7 @@
 -->
 <div id="nav">
 
-<div class="header">
+<div class="header login">
 @if (Auth::check())
 
 <form method='POST' id='logout' action='/logout'>
@@ -43,7 +49,7 @@
 @endif
 </div>
 
-<div class="header">
+<div class="header dates">
 <ul>
 @foreach($dates as $date)
 <li>
@@ -101,6 +107,27 @@
 
     <footer>
     </footer>
+<script>
+function myFunction() {
+  var x = document.getElementById("nav");
+  if (x.style.display === "block") {
+    x.style.display = "none";
+  } else {
+    x.style.display = "block";
+  }
+}
 
+function resize() {
+  var x = document.getElementById("nav");
+  if (window.innerWidth>900){
+	x.style.display="block";
+} else {
+	x.style.display="none";
+}
+}
+
+window.onresize = resize;
+
+</script>
 </body>
 </html>
