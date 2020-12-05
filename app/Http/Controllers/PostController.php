@@ -109,6 +109,7 @@ while ($i<$num_images){
 $image=new Image();
 
 $mediaUrl=$request->input('MediaUrl'.$i);
+$image->twilio_url=$mediaUrl;
 
 $curl = curl_init();
 $options = array(
@@ -127,7 +128,7 @@ $url=$url['url'];
 curl_close($curl);
 
 $contents=file_get_contents($url);
-
+$image->aws_url=$url;
 if ($post->protected=="Y"){
 Storage::disk('private')->put($post->created_at->format('m-d-Y_H_i_s').'_'.$i.'.jpg',$contents);
 
